@@ -1,0 +1,12 @@
+from matriz import Matriz
+Prueba = Matriz("prueba")
+Prueba.insertarNodo("hola",1,1)
+Prueba.insertarNodo("como",1,2)
+Prueba.insertarNodo("estas",1,3)
+Prueba.insertarNodo(":v",2,1)
+Prueba.insertarNodo("un",2,1)
+Prueba.insertarNodo("feliz",2,3)
+Prueba.insertarNodo("proyecto",3,1)
+Prueba.insertarNodo("de ipc",3,2)
+Prueba.insertarNodo("que te den",3,3)
+print(Prueba)

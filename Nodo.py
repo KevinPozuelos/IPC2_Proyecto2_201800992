@@ -1,10 +1,16 @@
-class Nodo:
+#Nodo de la matriz ortogonal
+class nodoOrtogonal:
 
-    def __init__(self, valor="", fila="", columna=""):
+    def __init__(self, contenido, x=None, y=None):
+        self.contenido = contenido
+        self.x = x
+        self.y = y
+        self.derecho = self.izquierdo = self.arriba = self.abajo = None
+#Nodo de la lista doblemente enlazada
+class nodoDoble:
+
+    def __init__(self, valor):
         self.valor = valor
-        self.fila = fila
-        self.columna = columna
-        self.siguiente = None
-        self.anteior = None
-        self.arriba = None
-        self.abajo = None
+        self.sig = None
+        self.ant = None
+        self.access = None

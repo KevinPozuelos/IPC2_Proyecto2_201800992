@@ -1,161 +1,75 @@
-from Nodo import *
-class Matriz:
-    def __init__(self, matriz):
-        # Aca inicializamos la cabecera y le agregamos el nombre de la matriz
-        self.cabecera = Nodo()
-        self.valor = matriz
+from cabecera import *
+from Nodo import nodoOrtogonal, nodoDoble
+class matrix:
 
-    def insertarNodo(self, valor, row, column):
-        # Aca inicializamos los nodos para filas, columnas y el cuerpo
-        fila = Nodo()
-        columna = Nodo()
-        cuerpo = Nodo()
+    def __init__(self, signo, fila, columna):
 
-        # ------------------------- Creamos datos de usuario -------------------
+        self.signo = signo
+        self.fila = fila
+        self.columna = columna
+        self.lista_horizontal = cabezera()
+        self.lista_vertical = cabezera()
 
-        cuerpo.valor = valor
-        # ---------------------- Buscamos fila y columna --------------------
-        columna = self.buscarColumna(column, self.cabecera)
-        fila = self.buscarFila(row, self.cabecera)
-        # -------------------- Creamos los deptos y empresas --------------------
-        if columna == None:
-            columna = self.insertarColumna(column)
-        if fila == None:
-            fila = self.insertarFila(row)
-
-        # ---------------- Creamos los nodos de las columnas---------------
-        # ------------- Creamos al inicio de columnas ------------------------
-
-        if columna.abajo == None:
-                columna.abajo = cuerpo
-                cuerpo.arriba = columna
-
-        elif fila.abajo == None:
-            auxiliar = columna.abajo
-            while auxiliar.abajo != None:
-                auxiliar = auxiliar.abajo
-
-            auxiliar.abajo = cuerpo
-            cuerpo.arriba = auxiliar
+    def nuevoNodo(self, signo, x, y):
+        nuevo = nodoOrtogonal(signo, x, y)
+        fila = self.lista_horizontal.search(x)
+        if fila is None:
+            fila = nodoDoble(x)
+            fila.access = nuevo
+            self.lista_horizontal.crearCabezera(fila)
         else:
-            auxiliar = columna
-            condicionB = True
+            if nuevo.y < fila.access.y:
+                nuevo.derecho = fila.access
+                fila.access.izquierdo = nuevo
+                fila.acess = nuevo
 
-            while condicionB:
-                auxiliar = auxiliar.abajo
-                auxiliarFila = auxiliar
-                while auxiliarFila.anterior != None:
-                    auxiliarFila = auxiliarFila.anterior
-
-                while auxiliarFila.arriba != None:
-                    if auxiliarFila.fila == row:
-                        cuerpo.abajo = auxiliar
-                        cuerpo.arriba = auxiliar.arriba
-                        auxiliar.arriba.abajo = cuerpo
-                        auxiliar.arriba = cuerpo
-                        break
-                    auxiliarFila = auxiliarFila.arriba
-
-                if auxiliar.abajo != None and cuerpo.arriba == None:
-                    condicionB = False
-
-            if cuerpo.arriba == None:
-                auxiliar.abajo = cuerpo
-                auxiliar.arriba = auxiliar
-
-                # ---------------- Creamos los nodos de las filas--------------------
-                # ------------- Creamos al inicio de filas ---------------------------
-
-                if fila.siguiente == None:
-                    fila.siguiente = cuerpo
-                    cuerpo.anterior = fila
-
-                    # ------------- Creamos al final de filas ----------------------------
-                elif columna.siguiente == None:
-                    auxiliar = fila.siguiente
-                    while auxiliar.siguiente != None:
-                        auxiliar = auxiliar.siguiente
-
-                    auxiliar.siguiente = cuerpo
-                    cuerpo.anterior = auxiliar
-
-                    # ------------------ Creamos enmedio de filas ----------------------
-                else:
-                    auxiliar = fila
-                    condicionB = True
-
-
-                    while condicionB:
-                        auxiliar = auxiliar.siguiente
-                        auxiliarColumna = auxiliar
-
-                        while auxiliarColumna.arriba != None:
-                            auxiliarColumna = auxiliarColumna.arriba
-
-                        while auxiliarColumna.anterior != None:
-                            if column == auxiliarColumna.columna:
-                                cuerpo.siguiente = auxiliar
-                                cuerpo.anterior = auxiliar.anterior
-                                auxiliar.anterior.siguiente = cuerpo
-                                auxiliar.anterior = cuerpo
-                                break
-                            auxiliarColumna = auxiliarColumna.anterior
-
-                        if (auxiliar.siguiente != None) and (cuerpo.anterior == None):
-                            condicionB = False
-
-                    if cuerpo.anterior == None:
-                        auxiliar.siguiente = cuerpo
-                        cuerpo.anterior = auxiliar
-
-            # /************************** Cabecera Filas ***********************************/
-
-    def insertarFila(self, fila):
-        filaAux = Nodo()
-        filaAux.fila = fila
-
-        auxiliar = self.cabecera
-
-        while auxiliar.abajo != None:
-            auxiliar = auxiliar.abajo
-
-        auxiliar.abajo = filaAux
-        filaAux.arriba = auxiliar
-
-        return filaAux
-
-
-    def insertarColumna(self, columna):
-        columnaAux = Nodo()
-        columnaAux.columna = columna
-
-        auxiliar = self.cabecera
-
-        while auxiliar.siguiente != None:
-            auxiliar = auxiliar.siguiente
-
-        auxiliar.siguiente = columnaAux
-        columnaAux.anterior = auxiliar
-
-        return columnaAux
-
-
-    # /************************** Buscar fila ************************************/
-    def buscarFila(self, fila, ini):
-        auxiliar = ini
-        while auxiliar != None:
-            if auxiliar.fila == fila:
-                return auxiliar
             else:
-                auxiliar = auxiliar.abajo
-        return None
+                temp = fila.access
+                while temp.derecho is not None:
+                    if nuevo.y < temp.derecho.y:
+                        nuevo.derecho = temp.derecho
+                        temp.derecho.izquierdo = temp
+                        temp.derecho = nuevo
+                        return
+                    temp = temp.derecho
 
-        # /************************** Buscar columna *************************************/
-    def buscarColumna(self, columna, ini):
-        auxiliar = ini
-        while auxiliar != None:
-            if auxiliar.columna == columna:
-                return auxiliar
-            else:
-                auxiliar = auxiliar.siguiente
-        return None
+                if temp.derecho is None:
+                    temp.derecho = nuevo
+                    nuevo.izquierdo = temp
+
+        columna = self.lista_vertical.search(y)
+        if columna is None:
+            columna = nodoDoble(y)
+            self.lista_vertical.crearCabezera(columna)
+            columna.access = nuevo
+
+        else:
+
+            temp = columna.access
+            while temp.abajo is not None:
+                if nuevo.x < temp.abajo.x:
+                    nuevo.abajo = temp.abajo
+                    temp.abajo.arriba = nuevo
+                    nuevo.arriba = temp
+                    temp.abajo = nuevo
+                    return
+                temp = temp.abajo
+
+            if temp.abajo is None:
+                temp.abajo = nuevo
+                nuevo.arriba = temp
+
+
+
+    def listarxFila(self):
+        fila = self.lista_horizontal.head
+        print("FILAS")
+        while fila is not None:
+            print('fila' + str(fila.valor))
+            aux = fila.access
+            while aux is not None:
+                print(aux.contenido + str(aux.x)+str(aux.y))
+                aux = aux.derecho
+            fila = fila.sig
+
+

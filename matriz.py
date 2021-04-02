@@ -68,6 +68,7 @@ class matrix:
             print('fila' + str(fila.valor))
             aux = fila.access
             while aux is not None:
-                print(aux.contenido + str(aux.x)+str(aux.y))
+                print(aux.contenido + '  ' + str(aux.x) +' , '+str(aux.y))
                 aux = aux.derecho
+
             fila = fila.sig

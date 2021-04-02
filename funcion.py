@@ -18,8 +18,23 @@ class Funciones_:
         ruta = self.archivo
         tree = ET.parse(ruta)
         root = tree.getroot()
+        f = 0
+        c = 1
+
         for element in root:
-            matrice = matrix(element[0].text, element[1].text, element[3].text)
+            cadena = (element[3].text)
+            matrice = matrix(str(element[0].text), int(element[1].text), int(element[2].text))
+            for i in range(len(element[3].text)):
+                if cadena[i] == '\n':
+                    f += 1
+                    c = 1
+                elif cadena[i] == '*' or cadena[i] == '-':
+                    matrice.nuevoNodo(cadena[i], f, c)
+                    c += 1
+            f = 0
+            c = 1
+
+            matrice.listarxFila()
 
 
 

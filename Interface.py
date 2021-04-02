@@ -1,29 +1,61 @@
 from tkinter import *
-#Creacion de la raiz para realizar la interfaz grafica.
-root = Tk()
-root.title("Principal")
+from tkinter import ttk,scrolledtext,Frame,Scrollbar,Canvas,Menu,Tk,VERTICAL
+from matriz import *
+from listaSimple import *
+from funcion import Funciones_
+class interface:
 
-#Configuracion basica de la interfaz grafica.
+    def __init__(self, ventana):
+        #########################__contenedor principal__################################
+        self.root = ventana
+        self.crearventana()
 
+    def crearventana(self):
+        function = Funciones_()
+        contenedor = self.root
+        contenedor.title("PROYECTO 2 -> 201800992")
 
+        #########################__ScrollBar de ventanas__#######################
+        contenedorPrincipal = Frame(contenedor, bg="OliveDrab1")
+        estilos = Canvas(contenedorPrincipal, bg="OliveDrab1")
+        scrolBar = Scrollbar(contenedorPrincipal, orient=VERTICAL, command=estilos.yview)
+        scrol = Frame(estilos, bg="OliveDrab1")
 
-#Creacion del Frame
-frame = Frame(root, width="1000", height="500")
-frame.pack()
-frame.config(bg="grey")
-frame.config(bd="25")
-frame.config(relief="sunken")
-frame.config(cursor="hand2")
+        #########################__Configuracion de scrollBar en ventanas__#######################
+        scrol.bind("<Configure>", lambda e: estilos.configure(scrollregion=estilos.bbox("all")))
+        estilos.create_window((0, 0), window=scrol, anchor="nw")
+        estilos.configure(yscrollcommand=scrolBar.set, width=1572, height=635)
 
-#bottons
-btnCargar = Button(frame, text="Cargar archivo")
-btnCargar.grid(row="1", column="0", padx="10", pady="10")
-btnOperaciones = Button(frame, text="Operaciones")
-btnOperaciones.grid(row="1", column="1",  padx="10", pady="10")
-btnReporte = Button(frame, text="Reporte")
-btnReporte.grid(row="1", column="2",  padx="10", pady="10")
-btnAyuda = Button(frame, text="Ayuda")
-btnAyuda.grid(row="1", column="3",  padx="10", pady="10")
+        ttk.Label(scrol, text="MATRIZ", font=("Arial", 17), background='OliveDrab1', foreground="gray").grid(column=0, row=0)
+        ttk.Label(scrol, text="ORIGINAL", font=("Arial", 17), background='OliveDrab1', foreground="gray").grid(column=0,row=1)
+        ttk.Label(scrol, text="RESULTADO", font=("Arial", 17), background='OliveDrab1', foreground="gray").grid(column=1, row=0)
+        ttk.Label(scrol, text="OPERACOIN", font=("Arial", 17), background='OliveDrab1', foreground="gray").grid(column=1,row=1)
 
-#Se ejecuta la interfaz.
-root.mainloop()
+        editor = scrolledtext.ScrolledText(scrol, undo=True, width=80, height=28, font=("Arial", 12),background="mint cream", foreground="black")
+        editor.grid(column=0, row=2, pady=25, padx=25)
+
+        consola = scrolledtext.ScrolledText(scrol, undo=True, width=80, height=28, font=("Arial", 12),background="black", foreground="white")
+        consola.grid(column=1, row=2, pady=25, padx=25)
+
+        #########################__Barra de herramientas__#######################
+        barraHerramientas = Menu(contenedor)
+        contenedor.config(menu=barraHerramientas, width=1572, height=635)
+        ######################__abrir archivo y guardar matricez__#################
+        opcionArchivo = Menu(barraHerramientas, tearoff=0)
+        opcionArchivo.add_command(label="CARGAR XML", command=lambda: function.abrir(editor))
+        #####################__OPERACIONES CON MATRICES__###########################
+        opcionReporte = Menu(barraHerramientas, tearoff=0)
+        opcionReporte.add_command(label="OPERACIONES", command=lambda: function.abrir(editor))
+        ####################__informacion__##########################################
+        informacion = Menu(barraHerramientas, tearoff=0)
+        informacion.add_command(label="Informacion del estudiante", command=lambda: function.info())
+        informacion.add_command(label="Documentacion", command=lambda: function.info())
+
+        barraHerramientas.add_cascade(label="Archivo", menu=opcionArchivo)
+        barraHerramientas.add_cascade(label="Operaciones", menu=opcionReporte)
+        barraHerramientas.add_cascade(label="Reportes", menu=opcionReporte)
+        barraHerramientas.add_cascade(label="Ayuda", menu=informacion)
+        contenedorPrincipal.grid(sticky="news")
+        estilos.grid(row=0, column=1)
+        scrolBar.grid(row=0, column=2, sticky="ns")
+        editor.focus()

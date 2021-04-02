@@ -71,5 +71,3 @@ class matrix:
                 print(aux.contenido + str(aux.x)+str(aux.y))
                 aux = aux.derecho
             fila = fila.sig
-
-

@@ -14,3 +14,10 @@ class nodoDoble:
         self.sig = None
         self.ant = None
         self.access = None
+
+#Nodo de lista simplemente enlazada
+class nodoSimple:
+
+    def __init__(self, matriz):
+        self.matriz = matriz
+        self.next = None

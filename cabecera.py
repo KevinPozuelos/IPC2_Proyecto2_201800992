@@ -41,6 +41,3 @@ class cabezera:
                 return aux
             aux = aux.sig
         return None
-
-
-

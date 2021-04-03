@@ -1,3 +1,5 @@
+import os
+
 from cabecera import *
 from Nodo import nodoOrtogonal, nodoDoble
 class matrix:
@@ -72,3 +74,39 @@ class matrix:
                 aux = aux.derecho
 
             fila = fila.sig
+
+    def graphMatrizGirovertical(self):
+        grafo = "digraph"
+        grafo += "{\nnode[shape=record];\n"
+        grafo += str("graph[pencolor=transparent];\n")
+        grafo += str("node [style=filled];\n")
+        filas = self.lista_horizontal.head
+        while filas is not None:
+            aux = filas.access
+            while aux is not None:
+                grafo += str("p"+str(aux.x)+str(aux.y)+"[label=\"{<data>"+str(aux.y)+","+str(aux.x)+"|<next>"+str(aux.contenido)+"}\" pos=\""+str(aux.x)+","+str(aux.y)+"!\"];\n")
+                aux = aux.derecho
+            filas = filas.sig
+        grafo += str("}\n")
+        f = open("ejemplo.dot", "w+")
+        f.write(grafo)
+        f.close()
+        os.system("fdp -Tpng -o graph-g.png ejemplo.dot")
+
+    def graphMatrizGirohorizonal(self):
+        grafo = "digraph"
+        grafo += "{\nnode[shape=record];\n"
+        grafo += str("graph[pencolor=transparent];\n")
+        grafo += str("node [style=filled];\n")
+        filas = self.lista_horizontal.head
+        while filas is not None:
+            aux = filas.access
+            while aux is not None:
+                grafo += str("p"+str(aux.x)+str(aux.y)+"[label=\"{<data>"+str(aux.x)+","+str(aux.y)+"|<next>"+str(aux.contenido)+"}\" pos=\""+str(aux.x)+","+str(aux.y)+"!\"];\n")
+                aux = aux.derecho
+            filas = filas.sig
+        grafo += str("}\n")
+        f = open("ejemplo.dot", "w+")
+        f.write(grafo)
+        f.close()
+        os.system("fdp -Tpng -o graph-g.png ejemplo.dot")

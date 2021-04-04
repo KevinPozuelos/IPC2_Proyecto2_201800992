@@ -37,7 +37,7 @@ class Funciones_:
             lista.insert(matrice)
             matrice.listarxFila()
             cotenido.append(matrice)
-
+            matrice.graphOriginal(matrice)
 
 
         editor.delete(1.0, END)

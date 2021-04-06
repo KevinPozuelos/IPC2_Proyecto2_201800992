@@ -32,4 +32,16 @@
 			-***--*-
         </imagen>
   </matriz>
+  <matriz>
+    	<nombre>Matriz_3</nombre>
+        <filas>4</filas>
+        <columnas>4</columnas>
+        <imagen>
+        	----
+			-*-*
+			--*-
+			-*-*
+
+        </imagen>
+  </matriz>
 </matrices>

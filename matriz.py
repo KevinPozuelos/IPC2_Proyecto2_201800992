@@ -120,21 +120,21 @@ class matrix:
         grafo += str("graph[pencolor=transparent];\n")
         grafo += str("node [style=filled];\n")
 
-        for y in range(1, c+1):
-            for x in range(1, f+1):
-                grafo += str("p" + str(x) + str(y) + "[label=\"{<data>" + str(y) + "," + str(
-                    x) + "|<next>" + matrice.busquedaPorCoordenada(x, y) + "}\" pos=\"" + str(x) + "," + str(
-                    10 - y) + "!\"];\n")
+        for y in range(1, c + 1):
+            for x in range(1, f + 1):
+                grafo += str("p" + str(x) + str(y) + "[label=\"{<data>" + str(x) + "," + str(
+                    y) + "|<next>" + str(matrice.busquedaPorCoordenada(y, x)) + "}\" pos=\"" + str(x) + "," + str(
+                    self.columna - y) + "!\"];\n")
         try:
             grafo += "Inicio[label=\"" + n + "\"]\n"
             grafo += str("}\n")
-            dot=str(n + ".dot")
+            dot = str(n + ".dot")
             f = open(dot, "w")
             f.write(grafo)
             f.close()
             os.system("fdp -Tpng " + dot + " -o " + n + ".png")
         except Exception:
-           print("error")
+            print("error")
 
 
 
@@ -147,3 +147,4 @@ class matrix:
                     return aux.contenido
                 aux = aux.derecho
             cabeceraF = cabeceraF.sig
+

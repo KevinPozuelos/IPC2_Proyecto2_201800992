@@ -9,6 +9,7 @@ class interface:
         #########################__contenedor principal__################################
         self.root = ventana
         self.crearventana()
+        self.seleccion = ''
 
     def crearventana(self):
         function = Funciones_()
@@ -20,7 +21,12 @@ class interface:
         estilos = Canvas(contenedorPrincipal, bg="OliveDrab1")
         scrolBar = Scrollbar(contenedorPrincipal, orient=VERTICAL, command=estilos.yview)
         scrol = Frame(estilos, bg="OliveDrab1")
-
+        combo = ttk.Combobox()
+        btnOperador = ttk.Button(text="Seleccionar", command=print("hola"))
+        btnOperador.place(x=200, y=50)
+        combo.place(x=50, y=50)
+        combo.config()
+        self.seleccion = combo.get()
         #########################__Configuracion de scrollBar en ventanas__#######################
         scrol.bind("<Configure>", lambda e: estilos.configure(scrollregion=estilos.bbox("all")))
         estilos.create_window((0, 0), window=scrol, anchor="nw")
@@ -42,17 +48,20 @@ class interface:
         contenedor.config(menu=barraHerramientas, width=1572, height=635)
         ######################__abrir archivo y guardar matricez__#################
         opcionArchivo = Menu(barraHerramientas, tearoff=0)
-        opcionArchivo.add_command(label="CARGAR XML", command=lambda: function.abrir(editor))
+        opcionArchivo.add_command(label="CARGAR XML", command=lambda: function.abrir(editor, combo))
         #####################__OPERACIONES CON MATRICES__###########################
+        opcionOperacion = Menu(barraHerramientas, tearoff=0)
+        opcionOperacion.add_command(label="Giro vertical", command=lambda: function.buscar(self.seleccion))
+        ####################__reporte__###############################################
         opcionReporte = Menu(barraHerramientas, tearoff=0)
-        opcionReporte.add_command(label="OPERACIONES", command=lambda: function.abrir(editor))
+        opcionReporte.add_command(label="REPORTE", command=lambda: function.reporte())
         ####################__informacion__##########################################
         informacion = Menu(barraHerramientas, tearoff=0)
         informacion.add_command(label="Informacion del estudiante", command=lambda: function.info())
         informacion.add_command(label="Documentacion", command=lambda: function.info())
 
         barraHerramientas.add_cascade(label="Archivo", menu=opcionArchivo)
-        barraHerramientas.add_cascade(label="Operaciones", menu=opcionReporte)
+        barraHerramientas.add_cascade(label="Operaciones", menu=opcionOperacion)
         barraHerramientas.add_cascade(label="Reportes", menu=opcionReporte)
         barraHerramientas.add_cascade(label="Ayuda", menu=informacion)
         contenedorPrincipal.grid(sticky="news")

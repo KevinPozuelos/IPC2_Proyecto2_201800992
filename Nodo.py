@@ -20,4 +20,5 @@ class nodoSimple:
 
     def __init__(self, matriz):
         self.matriz = matriz
+
         self.next = None

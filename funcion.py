@@ -110,3 +110,6 @@ class Funciones_:
     def buscar(self, busqueda):
         e=(self.lista.buscar(busqueda))
         e.matriz.graphMatrizGirovertical
+
+    def documentacion(self):
+        os.startfile("DOCUMENTACION.pdf")

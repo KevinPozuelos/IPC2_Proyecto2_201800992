@@ -26,7 +26,7 @@ class interface:
         btnOperador.place(x=200, y=50)
         combo.place(x=50, y=50)
         combo.config()
-        self.seleccion = combo.get()
+
         #########################__Configuracion de scrollBar en ventanas__#######################
         scrol.bind("<Configure>", lambda e: estilos.configure(scrollregion=estilos.bbox("all")))
         estilos.create_window((0, 0), window=scrol, anchor="nw")
@@ -51,14 +51,19 @@ class interface:
         opcionArchivo.add_command(label="CARGAR XML", command=lambda: function.abrir(editor, combo))
         #####################__OPERACIONES CON MATRICES__###########################
         opcionOperacion = Menu(barraHerramientas, tearoff=0)
-        opcionOperacion.add_command(label="Giro vertical", command=lambda: function.buscar(self.seleccion))
+        opcionOperacion.add_command(label="Giro vertical", command=lambda: function.buscar(combo.get()))
+        opcionOperacion.add_command(label="Giro horizontal", command=lambda: print(combo.get()))
+        opcionOperacion.add_command(label="Linea vertical", command=lambda: function.buscar(self.seleccion))
+        opcionOperacion.add_command(label="Linea Horizontal", command=lambda: function.buscar(self.seleccion))
+        opcionOperacion.add_command(label="Insertar rectangulo", command=lambda: function.buscar(self.seleccion))
+        opcionOperacion.add_command(label="Insertar Triangulo", command=lambda: function.buscar(self.seleccion))
         ####################__reporte__###############################################
         opcionReporte = Menu(barraHerramientas, tearoff=0)
         opcionReporte.add_command(label="REPORTE", command=lambda: function.reporte())
         ####################__informacion__##########################################
         informacion = Menu(barraHerramientas, tearoff=0)
         informacion.add_command(label="Informacion del estudiante", command=lambda: function.info())
-        informacion.add_command(label="Documentacion", command=lambda: function.info())
+        informacion.add_command(label="Documentacion", command=lambda: function.documentacion())
 
         barraHerramientas.add_cascade(label="Archivo", menu=opcionArchivo)
         barraHerramientas.add_cascade(label="Operaciones", menu=opcionOperacion)
